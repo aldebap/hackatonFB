@@ -89,7 +89,7 @@ func FromCSV(_csvLine string) Request {
 		request.AdjustmentComments = fields[15]
 		request.FileID = atoi(fields[16])
 		request.Product = atoi(fields[17])
-		request.EntryType = fields[18]
+		request.EntryType = strings.TrimSpace(fields[18])
 	}
 
 	return request

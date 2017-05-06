@@ -50,7 +50,7 @@ func main() {
 	fmt.Printf(">>>>> Request Loader\n\n")
 
 	//	initialize Kafka connection
-	requestLoader.Init(app.Process, []string{"localhost:9092"})
+	requestLoader.Init([]string{"localhost:9092"})
 
 	//	polling the load directory for request files
 	requestLoader.SetIgnoreHeader(ignoreHeader)

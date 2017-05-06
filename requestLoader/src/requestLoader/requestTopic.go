@@ -16,7 +16,6 @@ import (
 
 var (
 	channel  = make(chan string, 50000)
-	process  Process
 	counter  = int32(0)
 	brokers  []string
 	config   *samara.Config
@@ -25,8 +24,7 @@ var (
 
 type Process func(string)
 
-func Init(proc Process, broker []string) {
-	process = proc
+func Init(broker []string) {
 	brokers = broker
 
 	config = samara.NewConfig()

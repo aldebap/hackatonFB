@@ -8,7 +8,6 @@ package requestLoader
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -148,17 +147,16 @@ func LoadRequestFile(_requestFileName string) {
 
 		if 1 < lineNumber || false == ignoreHeader {
 
+			fmt.Printf("parsing record %d\r", lineNumber)
+
 			//	parse the line into a Request object
 			var request Request
 
 			request = FromCSV(line)
 
-			jsonRequest, err := json.Marshal(request)
-			if err != nil {
-				log.Panicf("ERROR! %v", err)
-			} else {
-				fmt.Printf("[debug] %s\n", jsonRequest)
-			}
+			SendTopic(request)
 		}
 	}
+
+	requestFile.Close()
 }

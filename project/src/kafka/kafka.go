@@ -32,12 +32,7 @@ func Init(proc Process, executors int, broker []string) {
 
 	config = consumergroup.NewConfig()
 
-	config.Offsets.ResetOffsets = true
-	config.Offsets.Initial = samara.OffsetOldest
-	//config.Offsets.Initial = samara.OffsetOldest
-
-	//config.Offsets.Initial = samara.OffsetNewest
-	//config.Offsets.ProcessingTimeout = 10 * time.Second
+	config.Offsets.Initial = samara.OffsetNewest
 
 	configProducer := samara.NewConfig()
 	configProducer.ClientID = "ConsumerRaw"
@@ -94,42 +89,4 @@ func Receive(topic string, offset int64) {
 		channel <- string(message.Value)
 	}
 
-	/**
-	master, err := samara.NewClient(brokers, config)
-	if err != nil {
-		log.Panicf("Falha ao estabelecer conexao %v", err)
-	}
-
-	consumerClient, err := samara.NewConsumerFromClient(master)
-
-	if err != nil {
-		log.Fatalf("Erro ao iniciar consumer client: %v", err)
-	}
-	partitions, _ := consumerClient.Partitions(topic)
-
-	for _, data := range partitions {
-		go consume(topic, data, 0)
-	}
-	**/
-
 }
-
-/** func consume(topic string, partition int32, offset int64) {
-	master, err := samara.NewClient(brokers, config)
-	consumerClient, err := samara.NewConsumerFromClient(master)
-	consumer, err := consumerClient.ConsumePartition(topic, partition, offset)
-	if err != nil {
-		log.Fatalf("Erro ao iniciar consumer: %v", err)
-	}
-
-	log.Printf("Consumer[%v] Listening ...", partition)
-
-	for {
-		select {
-		case message := <-consumer.Messages():
-			channel <- string(message.Value)
-		case err := <-consumer.Errors():
-			log.Printf("Error: %v", err)
-		}
-	}
-} **/

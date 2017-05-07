@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: ebcdic-springBoot
+  datasource:
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      minimum-idle: 1
+      maximum-pool-size: 5
+      pool-name: yourPoolName
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@10.64.114.92:1521:BDTDBOB
+      username: starstausr
+      password: starstausr
+      type: com.zaxxer.hikari.HikariDataSource  
+        
+server:
+  port: 8088
+          

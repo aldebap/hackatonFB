@@ -18,16 +18,16 @@ type Request struct {
 	RejectReason         string    `json:"rejectReason"`
 	SettlementAdjustment time.Time `json:"settlementAdjustment"`
 	GrossValue           int       `json:"grossValue"`
-	UserId               string    `json:"user"`
-	TechnologyType       int       `json:"tecnology"`
-	StatusRequest        string    `json:"status"`
+	UserId               string    `json:"userId"`
+	TechnologyType       int       `json:"tecnologyType"`
+	StatusRequest        string    `json:"requestStatus"`
 	Customer             string    `json:"customer"`
 	ModCustomer          int       `json:"modCustomer"`
 	BatchId              int       `json:"batchId"`
-	MovementType         int       `json:"movement"`
+	MovementType         int       `json:"movementType"`
 	RefundStatus         int       `json:"refundStatus"`
 	AdjustmentReason     int       `json:"adjustmentReason"`
-	AdjustmentComments   string    `json:"Comments"`
+	AdjustmentComments   string    `json:"AdjustmentComments"`
 	FileId               int       `json:"fieldId"`
 	Product              int       `json:"product"`
 	EntryType            string    `json:"entryType"`

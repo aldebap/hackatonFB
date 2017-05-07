@@ -19,28 +19,31 @@ func main() {
 	db.SetMaxIdleConns(10)
 	db.SetConnMaxLifetime(1 * time.Minute)
 
-	query := "INSERT INTO TBSETR_FINANCE_ADJUSTMENT_REQ(NU_REQUEST, CD_REQUEST_TYPE, NU_CUSTOMER, NU_MOD_CUSTOMER, NU_BATCH, DH_REQUEST) VALUES"
-
 	if err != nil {
 		log.Panicf("Falhou statement: %v", err)
 	}
 
-	vet := []interface{}{}
 	l := time.Now()
-	for i := 0; i < 10000; i++ {
-		query += "(?, ?, ?, ?, ?, ?),"
+	for j := 0; j < 1000; j++ {
+		query := "INSERT INTO TBSETR_FINANCE_ADJUSTMENT_REQ(NU_REQUEST, CD_REQUEST_TYPE, NU_CUSTOMER, NU_MOD_CUSTOMER, NU_BATCH, DH_REQUEST, CD_TECHNOLOGY_TYPE) VALUES"
+		vet := []interface{}{}
 
-		vet = append(vet, i, 1, i, i, 1, time.Now())
+		for i := 0; i < 1000; i++ {
+			query += "(?, ?, ?, ?, ?, ?, ?),"
+
+			vet = append(vet, i, 1, i, i, 1, time.Now(), 1)
+		}
+
+		log.Printf("Persistindo")
+
+		query = query[:len(query)-1]
+
+		stmt, err := db.Prepare(query)
+
+		result, err := stmt.Exec(vet...)
+		log.Printf(">>> %v", time.Since(l).Seconds())
+		log.Printf("Result %v %v", result, err)
+		stmt.Close()
 	}
 
-	log.Printf("Persistindo")
-
-	query = query[:len(query)-1]
-
-	stmt, err := db.Prepare(query)
-
-	result, err := stmt.Exec(vet...)
-	log.Printf(">>> %v", time.Since(l).Seconds())
-
-	log.Printf("Result %v %v", result, err)
 }

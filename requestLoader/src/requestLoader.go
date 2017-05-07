@@ -22,11 +22,13 @@ func main() {
 
 	var loadDirectory string
 	var ignoreHeader bool
+	var kafkaTopic string
 	var verbose bool
 
 	//	parse command line arguments
 	flag.StringVar(&loadDirectory, "loadDirectory", "input", "set the directory where get load files")
 	flag.BoolVar(&ignoreHeader, "ignoreHeader", true, "ignore the header line from the load files")
+	flag.StringVar(&kafkaTopic, "kafkaTopic", "request", "set the name of Kafka topic to produce messages to")
 	flag.BoolVar(&verbose, "verbose", false, "print a detailed trace execution")
 
 	flag.Parse()
@@ -55,6 +57,7 @@ func main() {
 	//	polling the load directory for request files
 	requestLoader.SetIgnoreHeader(ignoreHeader)
 	requestLoader.SetVerbose(verbose)
+	requestLoader.SetTopicName(kafkaTopic)
 
 	requestLoader.LoadDirectoryPolling(loadDirectory)
 }

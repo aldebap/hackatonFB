@@ -8,6 +8,7 @@ package requestLoader
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"strconv"
 
@@ -52,6 +53,10 @@ func SetTopicName(_topicName string) {
 ////////////////////////////////////////////////////////////////////////////////
 
 func SendTopic(_request Request) {
+
+	if true == verbose {
+		fmt.Printf("[debug] topicName: %s\n", topicName)
+	}
 
 	jsonRequest, err := json.Marshal(_request)
 	if err != nil {

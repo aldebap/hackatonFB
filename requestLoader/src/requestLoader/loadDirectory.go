@@ -14,7 +14,7 @@ import (
 )
 
 const processedDirectory = "processed"
-const poolingDelay = 30
+const pollingDelay = 30
 
 ////////////////////////////////////////////////////////////////////////////////
 //	Polling the load directory for request files
@@ -51,6 +51,6 @@ func LoadDirectoryPolling(_loadDirectory string) {
 		}
 
 		//	sleep for a while until check it again
-		time.Sleep(time.Duration(poolingDelay) * time.Second)
+		time.Sleep(time.Duration(pollingDelay) * time.Second)
 	}
 }

@@ -10,7 +10,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
 	"requestLoader"
 )
 
@@ -49,7 +48,7 @@ func main() {
 	}
 
 	//	splash screen
-	fmt.Printf(">>>>> Request Loader\n\n")
+	fmt.Printf(">>>>> Request Loader %s\n\n", loadDirectory)
 
 	//	initialize Kafka connection
 	requestLoader.Init([]string{"localhost:9092"})

@@ -9,6 +9,7 @@ package requestLoader
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"time"
 )
@@ -39,14 +40,20 @@ func LoadDirectoryPolling(_loadDirectory string) {
 			fmt.Fprintf(os.Stderr, "[error] can't get file list from directory %s\n", _loadDirectory)
 			return
 		}
+		if len(fileList) == 0 {
+			log.Printf("Diretorio vazio.")
+		}
 
 		//	iterate to the list of files
 		for _, file := range fileList {
+			if !file.IsDir() {
+				log.Printf("Iniciando processamento do arquivo [%s]", file.Name())
 
-			//	load only regular files
-			if true == file.Mode().IsRegular() {
-				LoadRequestFile(_loadDirectory + "/" + file.Name())
-				os.Rename(_loadDirectory+"/"+file.Name(), _loadDirectory+"/"+processedDirectory+"/"+file.Name())
+				//	load only regular files
+				if true == file.Mode().IsRegular() {
+					LoadRequestFile(_loadDirectory + "/" + file.Name())
+					os.Rename(_loadDirectory+"/"+file.Name(), _loadDirectory+"/"+processedDirectory+"/"+file.Name())
+				}
 			}
 		}
 

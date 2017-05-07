@@ -14,7 +14,12 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync/atomic"
 	"time"
+)
+
+var (
+	entrycount int32
 )
 
 type Request struct {
@@ -41,6 +46,17 @@ type Request struct {
 
 var ignoreHeader bool
 var verbose bool
+
+func init() {
+	go monitore()
+}
+
+func monitore() {
+	for {
+		log.Printf("Processados: %d", entrycount)
+		time.Sleep(1 * time.Second)
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //	set the ignore Header flag
@@ -147,13 +163,14 @@ func LoadRequestFile(_requestFileName string) {
 
 		if 1 < lineNumber || false == ignoreHeader {
 
-			fmt.Printf("parsing record %d\r", lineNumber)
+			//fmt.Printf("parsing record %d\r", lineNumber)
 
 			//	parse the line into a Request object
 			var request Request
 
 			request = FromCSV(line)
 
+			atomic.AddInt32(&entrycount, 1)
 			SendTopic(request)
 		}
 	}

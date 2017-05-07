@@ -12,7 +12,7 @@ var (
 
 func main() {
 
-	kafka.Init(app.Process, 20, []string{"localhost:9092"})
+	kafka.Init(app.Process, 8, []string{"localhost:9092"})
 
 	wg.Add(1)
 

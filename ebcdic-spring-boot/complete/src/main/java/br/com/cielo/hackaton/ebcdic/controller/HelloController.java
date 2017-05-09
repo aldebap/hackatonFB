@@ -53,7 +53,7 @@ public class HelloController {
 
 		ArrayList<SettlementMovement> movements = new ArrayList<>();
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000000; i++) {
 
 			movements.add(getMocks());
 		}
@@ -63,7 +63,7 @@ public class HelloController {
 
 	private SettlementMovement getMocks() {
 
-		SettlementMovement movementMock = new SettlementMovement(new Date(), new Integer("40"), 1003299951L, new Date("06/05/2017"),
+		SettlementMovement movementMock = new SettlementMovement(new Date(), new Integer("40"), 1003299951L, new Date(),
 				new BigDecimal(100), new BigDecimal(120), new BigDecimal(20), 888889L, "986", "", new Date(),
 				new Integer("10"), 22, UUID.randomUUID().toString(), Integer.valueOf(2));
 		return movementMock;

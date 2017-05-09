@@ -42,7 +42,7 @@ Na ausência de um banco de dados oracle, foi utilizado uma unica instancia de b
 
 Para persistencia foi definido que o melhor modelo seria o de inserções em batch, para evitar o excessivo tráfego de rede e multiplas transações em paralelo o que degradaria naturalmente o desempenho das operações no banco de dados.
 
-[fonte 1](https://github.com/aldebap/hackatonFB/tree/master/ajuste-persistence/) [fonte 2](https://github.com/aldebap/hackatonFB)
+[fonte 1](https://github.com/aldebap/hackatonFB/tree/master/ajuste-persistence/) [fonte 2](https://github.com/aldebap/hackatonFB/tree/master/ebcdic-spring-boot)
 
 ## O Teste ##
 

@@ -87,11 +87,20 @@ O teste de carga do arquivo provido pelo hackaton com o seguinte resultado:
 * Utilização de Memória: 20 mb por módulo de aplicação
 
 #### Evidencias ####
-[CPU] : https://github.com/aldebap/hackatonFB/blob/master/CPUEvidence.png
-![Tempo de Teste](https://github.com/aldebap/hackatonFB/blob/master/cronometro.jpg)
+CPU
+![CPU] (https://github.com/aldebap/hackatonFB/blob/master/CPUEvidence.png)
+
+Tempo de Teste
+![Tempo de Teste](https://github.com/aldebap/hackatonFB/blob/master/cronometro.jpg =100x20)
+
+DB Load
 ![DB Load](https://github.com/aldebap/hackatonFB/blob/master/dbevidence.PNG)
 
+Loader Start
 ![Loader Start](https://github.com/aldebap/hackatonFB/blob/master/loader-start-evidence.PNG)
+
+Loader End
 ![Loader End](https://github.com/aldebap/hackatonFB/blob/master/loader-end-evidence.PNG)
 
+Persistence End
 ![Persistence End](https://github.com/aldebap/hackatonFB/blob/master/db-end-evidence.PNG)

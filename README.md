@@ -1,6 +1,6 @@
 # TIME EBCDIC #
 
-O time é composto por Aldebaran, Rafael, Eric e Marcelo.
+O time é composto por Aldebaran, Rafael Camilo, Eric Rodrigo Ramos, Paulo Eduardo Domingues e Marcelo Sousa Lima.
 
 A aplicação foi implementada em go com partes de persistencia utilizando GOLang e Java.
 
@@ -16,6 +16,8 @@ A solução foi implementada baseando-se no conceito de eventos. Como message br
 |______|                      |________|                       \      ....          |__________|
                                                                  [Persister C] ---> |__________|  <---- [External App]
 ```
+
+O time entende que para um melhor desempenho das aplicações Fim(External App no desenho), as mesmas deveriam consumir as mensagens diretamente do kafka, executando assim o efetivo "fim do batch".
 
 ### Submodulos ###
 
@@ -68,6 +70,8 @@ O teste de carga do arquivo provido pelo hackaton com o seguinte resultado:
 * Tempo Total de Teste: 3:53 min
 * Throughput medio: 4291 tps
 * Latência média por operacao: 2,33 miliseconds
+* Utilização de CPU: 100% durante todo o teste
+* Utilização de Memória: 20 mb por módulo de aplicação
 
 #### Evidencias ####
 [CPU](https://github.com/aldebap/hackatonFB/blob/master/CPUEvidence.png)

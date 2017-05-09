@@ -32,6 +32,8 @@ Vale citar que a aplicação em seus módulos de enriquecimento e persistencia, 
 
 O time entende que para um melhor desempenho das aplicações Fim(External App no desenho), as mesmas deveriam consumir as mensagens diretamente do kafka, executando assim o efetivo "fim do batch" e eliminando uma camada desnecessária de persistencia, que seria mantida somente em casos específicos.
 
+
+
 ### Submodulos ###
 
 #### Loader ####
@@ -55,6 +57,25 @@ Na ausência de um banco de dados oracle, foi utilizado uma unica instancia de b
 Para persistencia foi definido que o melhor modelo seria o de inserções em batch, para evitar o excessivo tráfego de rede e multiplas transações em paralelo o que degradaria naturalmente o desempenho das operações no banco de dados.
 
 [fonte 1](https://github.com/aldebap/hackatonFB/tree/master/ajuste-persistence/) [fonte 2](https://github.com/aldebap/hackatonFB/tree/master/ebcdic-spring-boot)
+
+
+### Arquitetura Escalável ###
+
+O resultado obtido foi alcançado utilizando um ```node``` para cada instância de módulo. No entanto, a arquitetura da aplicação foi elaborada pensando na escalabilidade horizontal de cada um dos módulos. Desta forma, ao identificar os gargalos do processo de carga, podemos subir novas instâncias sob demanda para processar a parte que está necessitando melhoria no processamento. 
+
+```
+                                 _______
+                               _|_____  |                    [Persister A1]      __________
+ ______                      _|______ | |                    [Persister A2] --> |__________| <-- [External App]
+|      |        topic       |        ||_|      topic       /      ...           |          |
+|Loader| --> [][][][][] --> |Enricher||--> [][][][][] -->  --[Persister B1] --> | DATABASE | <-- [External App]
+|______|                    |________|                     \      ....          |__________|
+                                                             [Persister C1] --> |__________| <-- [External App]
+                                                             [Persister C2]
+```
+
+No exemplo acima o modulo ```Enricher``` foi escalado com mais 2 instancias para dar vazão ao consumo das mensagens produzidas pelo ```Loader```. No caso dos módulos de persistência, o ```Persister A``` e o ```Persister C``` demanadou a criação de novas instâncias, enquanto o ```Persister B``` não teve esta nessdidade.
+
 
 ## O Teste ##
 
@@ -113,3 +134,5 @@ O teste de carga do arquivo provido pelo hackaton com o seguinte resultado:
 #### Persistence End ####
 
 ![Persistence End](https://github.com/aldebap/hackatonFB/blob/master/db-end-evidence.PNG)
+
+

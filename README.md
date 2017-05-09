@@ -1,4 +1,16 @@
-# TIME EBCDIC #
+```
+████████╗██╗███╗   ███╗███████╗        ███████╗██████╗  ██████╗██████╗ ██╗ ██████╗
+╚══██╔══╝██║████╗ ████║██╔════╝        ██╔════╝██╔══██╗██╔════╝██╔══██╗██║██╔════╝
+   ██║   ██║██╔████╔██║█████╗          █████╗  ██████╔╝██║     ██║  ██║██║██║     
+   ██║   ██║██║╚██╔╝██║██╔══╝          ██╔══╝  ██╔══██╗██║     ██║  ██║██║██║     
+   ██║   ██║██║ ╚═╝ ██║███████╗        ███████╗██████╔╝╚██████╗██████╔╝██║╚██████╗
+   ╚═╝   ╚═╝╚═╝     ╚═╝╚══════╝        ╚══════╝╚═════╝  ╚═════╝╚═════╝ ╚═╝ ╚═════╝
+                                                                                  
+           
+```
+# A FUGA DO BATCH #
+
+
 O time é composto por [Aldebaran](https://github.com/aldebap), [Rafael Camilo](https://github.com/rcamilo), [Eric Rodrigo Ramos](https://github.com/eric-r-ramos), Paulo Eduardo Domingues e [Marcelo Sousa Lima](https://github.com/marceluxvk).
 
 A aplicação foi implementada em go com partes de persistencia utilizando GOLang e Java.
@@ -13,7 +25,7 @@ Vale citar que a aplicação em seus módulos de enriquecimento e persistencia, 
                                                                                 __________
  ______                      ________                        [Persister A] --> |__________| <-- [External App]
 |      |        topic       |        |        topic        /      ...          |          |
-|loader| --> [][][][][] --> |enricher| --> [][][][][] -->  --[Persister B] --> | DATABASE | <-- [External App]
+|Loader| --> [][][][][] --> |Enricher| --> [][][][][] -->  --[Persister B] --> | DATABASE | <-- [External App]
 |______|                    |________|                     \      ....         |__________|
                                                              [Persister C] --> |__________| <-- [External App]
 ```
@@ -28,7 +40,7 @@ O time entende que para um melhor desempenho das aplicações Fim(External App n
 
 Componente implentado em GoLang responsável por varrer o diretorio onde o arquivo é disponibilizado e transforma-lo em um stream de mensagens json(canonino do stream). Em seguida, aplicação envia o canonico para um topico kafka.
 
-#### enricher ####
+#### Enricher ####
 
 [fonte](https://github.com/aldebap/hackatonFB/tree/master/project)
 

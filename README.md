@@ -58,7 +58,9 @@ O ambiente executava:
 6. Persistence 1
 
 Foi observado que o ambiente executava com 100% de uso de cpu desde o inicio do processamento até o final do teste, o que sinaliza um gargalo de hardware e não de aplicação. Isso nos permite imaginar que o throughput final pode ser escalado de forma interessante em um ambiente apropriado.
+
 ---
+
 ### Resultados ###
 
 O teste de carga do arquivo provido pelo hackaton com o seguinte resultado:

@@ -10,6 +10,7 @@ function buildGoLang {
 
 	export  COMPONENT=$1
 	export  GOPATH=${PROJECT_PATH}/${COMPONENT}
+	export	GOOS=linux
 
 	echo ">>> Building component \"${COMPONENT}\" at ${GOPATH}"
 	echo
@@ -35,6 +36,22 @@ function buildGoLang {
 	echo
 }
 
+function buildJava {
+
+	export  COMPONENT=$1
+	export  JAVAPATH=${PROJECT_PATH}/${COMPONENT}
+
+	echo ">>> Building component \"${COMPONENT}\" at ${JAVAPATH}"
+	echo
+
+	#	build the component
+
+	echo "> Building source code"
+
+	cd ${JAVAPATH}
+	mvn clean install
+}
+
 #	build all project components
 
 echo ">>>>> Building GoLang components"
@@ -43,10 +60,9 @@ echo
 buildGoLang "request"
 buildGoLang "requestLoader"
 buildGoLang "project"
-#${PROJECT_PATH}/request/build.ksh
-#${PROJECT_PATH}/requestLoader/build.ksh
-#${PROJECT_PATH}/project/build.ksh
 
 echo ">>>>> Building Java components"
 echo
+
+buildJava ebcdic-spring-boot/complete
 

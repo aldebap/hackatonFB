@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -21,6 +24,10 @@ public class SettlementMovementRepositoryImpl implements SettlementMovementRepos
 
 	@Autowired
 	DataSource dataSource;
+	
+	private ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 1, TimeUnit.SECONDS,
+			new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
+	
 
 	@Override
 	public void insertMovement(SettlementMovement movement) throws SQLException {
@@ -54,52 +61,62 @@ public class SettlementMovementRepositoryImpl implements SettlementMovementRepos
 	public void insertMovementBatchCommand(List<SettlementMovement> movements) throws SQLException {
 
 		System.out.println(" >>>>>Tamanho da Lista de Movimentos Financeiros:" + movements.size());
-
+		
+		
 		Connection connection = this.dataSource.getConnection();
+		executor.execute(() -> {
+			try {
+			
 
-		final int batchSize = 10;
-		int count = 0;
-		int index = 0;
-		int[] result;
+				final int batchSize = 10000;
+				int count = 0;
+				int index = 0;
+				int[] result;
 
-		PreparedStatement ps = connection.prepareStatement(SettlementMovementRepository.INSERT_SETTLEMENT_MOVEMENT);
+				PreparedStatement ps = connection.prepareStatement(SettlementMovementRepository.INSERT_SETTLEMENT_MOVEMENT);
 
-		long start = System.currentTimeMillis();
+				long start = System.currentTimeMillis();
 
-		for (SettlementMovement movement : movements) {
-			ps.setDate(++index, new java.sql.Date(movement.getBatchDate().getTime()));
-			ps.setInt(++index, movement.getProductCode());
-			ps.setLong(++index, movement.getCustomerNumber());
-			ps.setDate(++index, new java.sql.Date(movement.getSettlementDate().getTime()));
-			ps.setBigDecimal(++index, movement.getNetMovementValue());
-			ps.setBigDecimal(++index, movement.getGrossMovementValue());
-			ps.setBigDecimal(++index, movement.getDailyDiscountValueAmt());
-			ps.setLong(++index, movement.getLoadFileIdNumber());
-			ps.setString(++index, movement.getFundingCurrencyCode());
-			ps.setInt(++index, movement.getCustomerModNumber());
-			ps.setInt(++index, movement.getStatusMovement());
-			ps.setInt(++index, movement.getMovementTypeCode());
-			ps.setString(++index, movement.getNumberFinancialMovementOrig());
-			ps.addBatch();
+				for (SettlementMovement movement : movements) {
+					ps.setDate(++index, new java.sql.Date(movement.getBatchDate().getTime()));
+					ps.setInt(++index, movement.getProductCode());
+					ps.setLong(++index, movement.getCustomerNumber());
+					ps.setDate(++index, new java.sql.Date(movement.getSettlementDate().getTime()));
+					ps.setBigDecimal(++index, movement.getNetMovementValue());
+					ps.setBigDecimal(++index, movement.getGrossMovementValue());
+					ps.setBigDecimal(++index, movement.getDailyDiscountValueAmt());
+					ps.setLong(++index, movement.getLoadFileIdNumber());
+					ps.setString(++index, movement.getFundingCurrencyCode());
+					ps.setInt(++index, movement.getCustomerModNumber());
+					ps.setInt(++index, movement.getStatusMovement());
+					ps.setInt(++index, movement.getMovementTypeCode());
+					ps.setString(++index, movement.getNumberFinancialMovementOrig());
+					ps.addBatch();
 
-			if (++count % batchSize == 0) {
-				result = ps.executeBatch();
-				System.out.println("Qtde Inserts: " + result.length);
+					if (++count % batchSize == 0) {
+						result = ps.executeBatch();						
+						//System.out.println("Qtde Inserts: " + result.length);
+					}
 
+					index = 0;
+
+				}
+				int[] result2 = ps.executeBatch();
+				System.out.println("Qtde Inserts: " + result2.length);
+				connection.close();
+
+				long end = System.currentTimeMillis();
+				System.out.println("Tempo total = " + (end - start) + " ms");
+				System.out.println("Mediaa = " + (end - start) / movements.size() + " ms");
+
+				System.out.println(" Fim insertMovementBatchCommand");
+
+				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		});
 
-			index = 0;
-
-		}
-		int[] result2 = ps.executeBatch();
-		System.out.println("Qtde Inserts: " + result2.length);
-		connection.close();
-
-		long end = System.currentTimeMillis();
-		System.out.println("Tempo total = " + (end - start) + " ms");
-		System.out.println("Mediaa = " + (end - start) / movements.size() + " ms");
-
-		System.out.println(" Fim insertMovementBatchCommand");
 	}
 
 	@Bean(destroyMethod = "close")

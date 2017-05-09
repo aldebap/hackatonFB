@@ -1,6 +1,5 @@
 # TIME EBCDIC #
-
-O time é composto por Aldebaran, Rafael Camilo, Eric Rodrigo Ramos, Paulo Eduardo Domingues e Marcelo Sousa Lima.
+O time é composto por [Aldebaran](https://github.com/aldebap), [Rafael Camilo](https://github.com/rcamilo), [Eric Rodrigo Ramos](https://github.com/eric-r-ramos), Paulo Eduardo Domingues e [Marcelo Sousa Lima](https://github.com/marceluxvk).
 
 A aplicação foi implementada em go com partes de persistencia utilizando GOLang e Java.
 
@@ -8,16 +7,18 @@ A aplicação foi implementada em go com partes de persistencia utilizando GOLan
 
 A solução foi implementada baseando-se no conceito de eventos. Como message broker foi utilizado o [Apache Kafka](http://kafka.apache.org/).
 
+Vale citar que a aplicação em seus módulos de enriquecimento e persistencia, está preparada para escala horizontal utilizando o consumer groups do Kafka.
+
 ```
                                                                                      __________
  ______                        ________                          [Persister A] ---> |__________|  <---- [External App]
-|      |        topic         |        |        topic          /      ...           |          |
+|      |        topic         |        |         topic         /      ...           |          |
 |loader| ---> [][][][][] ---> |enricher| ---> [][][][][] --->  --[Persister B] ---> | DATABASE |  <---- [External App]
 |______|                      |________|                       \      ....          |__________|
                                                                  [Persister C] ---> |__________|  <---- [External App]
 ```
 
-O time entende que para um melhor desempenho das aplicações Fim(External App no desenho), as mesmas deveriam consumir as mensagens diretamente do kafka, executando assim o efetivo "fim do batch".
+O time entende que para um melhor desempenho das aplicações Fim(External App no desenho), as mesmas deveriam consumir as mensagens diretamente do kafka, executando assim o efetivo "fim do batch" e eliminando uma camada desnecessária de persistencia, que seria mantida somente em casos específicos.
 
 ### Submodulos ###
 

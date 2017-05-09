@@ -10,12 +10,12 @@ A solução foi implementada baseando-se no conceito de eventos. Como message br
 Vale citar que a aplicação em seus módulos de enriquecimento e persistencia, está preparada para escala horizontal utilizando o consumer groups do Kafka.
 
 ```
-                                                                                     __________
- ______                        ________                          [Persister A] ---> |__________|  <---- [External App]
-|      |        topic         |        |         topic         /      ...           |          |
-|loader| ---> [][][][][] ---> |enricher| ---> [][][][][] --->  --[Persister B] ---> | DATABASE |  <---- [External App]
-|______|                      |________|                       \      ....          |__________|
-                                                                 [Persister C] ---> |__________|  <---- [External App]
+                                                                                __________
+ ______                      ________                        [Persister A] --> |__________| <-- [External App]
+|      |        topic       |        |        topic        /      ...          |          |
+|loader| --> [][][][][] --> |enricher| --> [][][][][] -->  --[Persister B] --> | DATABASE | <-- [External App]
+|______|                    |________|                     \      ....         |__________|
+                                                             [Persister C] --> |__________| <-- [External App]
 ```
 
 O time entende que para um melhor desempenho das aplicações Fim(External App no desenho), as mesmas deveriam consumir as mensagens diretamente do kafka, executando assim o efetivo "fim do batch" e eliminando uma camada desnecessária de persistencia, que seria mantida somente em casos específicos.
